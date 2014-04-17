@@ -1,19 +1,19 @@
 <?php 
 
-class CategoriesController extends BaseController 
+class ImagesController extends BaseController 
 {
 	public $restful = true;
 
 	public function index()
 	{
-		$categories = Category::all();
-		$json_categories = $categories->toArray();
+		$image = Image::all();
+		$json_images = $image->toArray();
 
 		$rtn = array(
 			'status' => 200,
 			'message' => null,
 			'data' => array(
-				'categories' => $json_categories
+				'image' => $json_images
 			)
 		);
 		return $rtn;
@@ -21,26 +21,26 @@ class CategoriesController extends BaseController
 
 	public function show($id)
 	{
-		$category = Category::find($id);
+		$image = Image::find($id);
 
-		if(is_null($category))
+		if(is_null($image))
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No category found',
+				'message' => 'No image found',
 				'data'=> null
 			);
 			return $rtn;
 		}
 		else
 		{
-			$json_categories = $category->toArray();
+			$json_images = $image->toArray();
 
 			$rtn = array(
 				'status' => 200,
 				'message' => null,
 				'data' => array(
-					'categories' => $json_categories
+					'image' => $json_images
 				)
 			);
 			return $rtn;
@@ -49,22 +49,22 @@ class CategoriesController extends BaseController
 
 	public function store()
 	{
-		$validator = Validator::make(Input::all(), Category::$rules);
+		$validator = Validator::make(Input::all(), Image::$rules);
 
 		try {
 			if ($validator->passes())
 			{
-				$category = new Category;
-				$category->name = Input::get('name');
-				$category->description = Input::get('description');
-				$category->save();
+				$image = new Image;
+				$image->producto_id = Input::get('producto_id');
+				$image->name_life = Input::get('name_life');
+				$image->save();
 
-				$json_category = $category->toArray();
+				$json_image = $image->toArray();
 
 				$rtn = array(
 					'status' => 200,
-					'message' => 'category added',
-					'data' => $json_category
+					'message' => 'image added',
+					'data' => $json_image
 				);
 			}
 			else
@@ -90,33 +90,33 @@ class CategoriesController extends BaseController
 
 	public function update($id)
 	{
-		$category = Category::find($id);
+		$image = Image::find($id);
 
-		if(is_null($category))
+		if(is_null($image))
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No category found',
+				'message' => 'No image found',
 				'data'=> null
 			);
 			return $rtn;
 		}
 		else
 		{
-			$validator = Validator::make(Input::all(), Category::$rules);
+			$validator = Validator::make(Input::all(), Image::$rules);
 
 			if($validator->passes())
 			{
-				$category->name = Input::get('name');
-				$category->description = Input::get('description');
-				$category->save();
+				$image->product_id = Input::get('product_id');
+				$image->name_label = Input::get('name_label');
+				$image->save();
 
-				$json_category = $category->toArray();
+				$json_image = $image->toArray();
 				
 				$rtn = array(
 					'status' => 200,
-					'message' => 'category updated',
-					'data' => $json_category
+					'message' => 'image updated',
+					'data' => $json_image
 				);
 			}
 			else
@@ -133,24 +133,24 @@ class CategoriesController extends BaseController
 
 	public function destroy($id) 
 	{
-		$category = Category::find($id);
+		$image = Image::find($id);
 
 		try
 		{
-			if(is_null($category))
+			if(is_null($image))
 			{
 				$rtn = array(
 					'status' => 404,
-					'message' => 'No category found',
+					'message' => 'No image found',
 					'data'=> null
 				);
 			} else {
-				$json_category = $category->toArray();
-				$category->delete();
+				$json_image = $imagen->toArray();
+				$imagen->delete();
 				$rtn = array(
 					'status' => 200,
-					'message' => 'category deleted',
-					'data' => $json_category
+					'message' => 'image deleted',
+					'data' => $json_image
 				);
 			}
 			return $rtn;
@@ -165,4 +165,4 @@ class CategoriesController extends BaseController
 			return $rtn;
 		}
 	}
-}
+} 

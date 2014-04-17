@@ -4,23 +4,23 @@ class CategoriesTableSeeder extends Seeder {
 
 	public function run() {
 		$category = new Category;
-		$category->name = 'Pantalones';
+		$category->name = 'Carteras Pequeñas';
 		$category->save();
 
 		$category = new Category;
-		$category->name = 'Camisas';
+		$category->name = 'Carteras Medianas';
 		$category->save();
 
 		$category = new Category;
-		$category->name = 'Sombreros';
+		$category->name = 'Carteras Grandes';
 		$category->save();
 
 		$category = new Category;
-		$category->name = 'Zapatos';
+		$category->name = 'Bolsos';
 		$category->save();
 
 		$category = new Category;
-		$category->name = 'Carteras';
+		$category->name = 'Maletas';
 		$category->save();
 	}
 }

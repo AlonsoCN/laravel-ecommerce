@@ -1,19 +1,19 @@
 <?php 
 
-class CategoriesController extends BaseController 
+class ColorsController extends BaseController 
 {
 	public $restful = true;
 
 	public function index()
 	{
-		$categories = Category::all();
-		$json_categories = $categories->toArray();
+		$color = Color::all();
+		$json_color = $color->toArray();
 
 		$rtn = array(
 			'status' => 200,
 			'message' => null,
 			'data' => array(
-				'categories' => $json_categories
+				'color' => $json_color
 			)
 		);
 		return $rtn;
@@ -21,26 +21,26 @@ class CategoriesController extends BaseController
 
 	public function show($id)
 	{
-		$category = Category::find($id);
+		$color = Color::find($id);
 
-		if(is_null($category))
+		if(is_null($color))
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No category found',
+				'message' => 'No color found',
 				'data'=> null
 			);
 			return $rtn;
 		}
 		else
 		{
-			$json_categories = $category->toArray();
+			$json_color = $color->toArray();
 
 			$rtn = array(
 				'status' => 200,
 				'message' => null,
 				'data' => array(
-					'categories' => $json_categories
+					'color' => $json_color
 				)
 			);
 			return $rtn;
@@ -49,22 +49,23 @@ class CategoriesController extends BaseController
 
 	public function store()
 	{
-		$validator = Validator::make(Input::all(), Category::$rules);
+		$validator = Validator::make(Input::all(), Color::$rules);
 
 		try {
 			if ($validator->passes())
 			{
-				$category = new Category;
-				$category->name = Input::get('name');
-				$category->description = Input::get('description');
-				$category->save();
+				$color = new Color;
+				$color->producto_id = Input::get('producto_id');
+				$color->name = Input::get('name');
+				$color->price = Input::get('price');
+				$color->save();
 
-				$json_category = $category->toArray();
+				$json_color = $color->toArray();
 
 				$rtn = array(
 					'status' => 200,
-					'message' => 'category added',
-					'data' => $json_category
+					'message' => 'color added',
+					'data' => $json_color
 				);
 			}
 			else
@@ -90,33 +91,34 @@ class CategoriesController extends BaseController
 
 	public function update($id)
 	{
-		$category = Category::find($id);
+		$color = Color::find($id);
 
-		if(is_null($category))
+		if(is_null($color))
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No category found',
+				'message' => 'No color found',
 				'data'=> null
 			);
 			return $rtn;
 		}
 		else
 		{
-			$validator = Validator::make(Input::all(), Category::$rules);
+			$validator = Validator::make(Input::all(), Color::$rules);
 
 			if($validator->passes())
 			{
-				$category->name = Input::get('name');
-				$category->description = Input::get('description');
-				$category->save();
+				$color->product_id = Input::get('product_id');
+				$color->name = Input::get('name');
+				$color->price = Input::get('price');
+				$color->save();
 
-				$json_category = $category->toArray();
+				$json_color = $color->toArray();
 				
 				$rtn = array(
 					'status' => 200,
-					'message' => 'category updated',
-					'data' => $json_category
+					'message' => 'color updated',
+					'data' => $json_color
 				);
 			}
 			else
@@ -133,24 +135,24 @@ class CategoriesController extends BaseController
 
 	public function destroy($id) 
 	{
-		$category = Category::find($id);
+		$color = Color::find($id);
 
 		try
 		{
-			if(is_null($category))
+			if(is_null($color))
 			{
 				$rtn = array(
 					'status' => 404,
-					'message' => 'No category found',
+					'message' => 'No color found',
 					'data'=> null
 				);
 			} else {
-				$json_category = $category->toArray();
-				$category->delete();
+				$json_color = $color->toArray();
+				$color->delete();
 				$rtn = array(
 					'status' => 200,
-					'message' => 'category deleted',
-					'data' => $json_category
+					'message' => 'color deleted',
+					'data' => $json_color
 				);
 			}
 			return $rtn;
@@ -165,4 +167,4 @@ class CategoriesController extends BaseController
 			return $rtn;
 		}
 	}
-}
+} 
