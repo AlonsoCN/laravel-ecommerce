@@ -3,16 +3,18 @@
 class ProfileTableSeeder extends Seeder {
 
 	public function run() {
-		$category = new Profile;
-		$category->id = 1;
-		$category->first_name = 'Adminis';
-		$category->last_name = 'Trador';
-		$category->phone = '(052)121212';
-		$category->celphone = '952111111';
-		$category->dni = '11223344';
-		$category->address = 'Metropolis #333';
-		$category->city = 'Lima';
-		$category->country = 'Perú'
-		$category->save();
+		DB::table('profiles')->delete();
+
+		$profile = new Profile;
+		$profile->id = 1;
+		$profile->firstname = 'Adminis';
+		$profile->lastname = 'Trador';
+		$profile->phone = '(052)121212';
+		$profile->celphone = '952111111';
+		$profile->dni = '11223344';
+		$profile->address = 'Metropolis #333';
+		$profile->city = 'Lima';
+		$profile->country = 'Perú';
+		$profile->save();
 	}
 }

@@ -3,6 +3,8 @@
 class UsersTableSeeder extends Seeder {
 
 	public function run() {
+      DB::table('users')->delete();
+
 		$user = new User;
 		$user->profile_id = 1;
 		$user->email = 'luis.alonso.cn@gmail.com';

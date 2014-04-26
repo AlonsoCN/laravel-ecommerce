@@ -27,7 +27,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'email'=>'required|email|unique:users',
 		'password'=>'required|alpha_num|between:8,12|confirmed',
 		'password_confirmation'=>'required|alpha_num|between:8,12',
-		
+
 		'admin'=>'integer'
 	);
 
@@ -59,6 +59,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function getReminderEmail()
 	{
 		return $this->email;
+	}
+
+	public function getRememberToken()
+	{
+	    return $this->remember_token;
+	}
+
+	public function setRememberToken($value)
+	{
+	    $this->remember_token = $value;
+	}
+
+	public function getRememberTokenName()
+	{
+	    return 'remember_token';
 	}
 
 }

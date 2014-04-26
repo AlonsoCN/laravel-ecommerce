@@ -10,50 +10,66 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+// Tiene más sentido usar constantes para este tipo de cosas, te parece?
+define("API_PREFIX", "api/");
+define("V1_PREFIX", "v1");
 
-$api_route = 'api/';
-$api_version = 'v1/';
+/**
+ * - Inicialmente debemos trabajar con auth.basic para todos los requests críticos
+ * (Get de data confidencial, Posts, Put, Delete, etc).
+ * - Agrupemos dentro del mismo api/v1 todos los request con autenticación
+ * - Usemos Route::resource para manejar todos los requests
+ */
+Route::group(array(
+   'prefix' => API_PREFIX.V1_PREFIX,
+   'before' => 'auth.basic'),
+   function(){
+       Route::resource('categories', 'CategoriesController', array('only' => array('create', 'store', 'update', 'delete')));
+   }
+);
+// Podemos llevar todos los GETs 'abiertos' a un grupo aparte (que no tenga filtro de auth) así mantemos publico
+Route::group(
+   array('prefix' => API_PREFIX.V1_PREFIX),
+   function(){
+       Route::resource('categories', 'CategoriesController', array('only' => array('index', 'show')));
+   }
+);
 
-Route::get('/', function()
-{
-	//return View::make('hello');
-});
+// // Auth's Routes
+// Route::get(API_PREFIX.V1_PREFIX.'login', 'UsersController@index');
+// Route::post(V1_PREFIX.'login', 'UsersController@postSignin');
 
-// Auth's Routes
-Route::get($api_route.$api_version.'login', 'UsersController@index');
-Route::post($api_version.'login', 'UsersController@postSignin');
+// // With Auth
+// Route::group(array('before'=>'auth'), function()
+// {
+// 	Route::get('logout', 'UsersController@getSignout');
 
-// With Auth
-Route::group(array('before'=>'auth'), function()
-{	
-	Route::get('logout', 'UsersController@getSignout');
+// });
 
-});
+// // Without Auth
+// Route::get(API_PREFIX.V1_PREFIX.'categories', 'CategoriesController@index');
+// Route::get(API_PREFIX.V1_PREFIX.'categories/{id}', 'CategoriesController@show');
+// Route::post(API_PREFIX.V1_PREFIX.'categories', 'CategoriesController@store');
+// Route::put(API_PREFIX.V1_PREFIX.'categories/{id}', 'CategoriesController@update');
+// Route::delete(API_PREFIX.V1_PREFIX.'categories/{id}', 'CategoriesController@destroy');
 
-// Without Auth
-Route::get($api_route.$api_version.'categories', 'CategoriesController@index');
-Route::get($api_route.$api_version.'categories/{id}', 'CategoriesController@show');
-Route::post($api_route.$api_version.'categories', 'CategoriesController@store');
-Route::put($api_route.$api_version.'categories/{id}', 'CategoriesController@update');
-Route::delete($api_route.$api_version.'categories/{id}', 'CategoriesController@destroy');
+// // Without Auth
+// Route::get(API_PREFIX.V1_PREFIX.'products', 'ProductsController@index');
+// Route::get(API_PREFIX.V1_PREFIX.'products/{id}', 'ProductsController@show');
+// Route::post(API_PREFIX.V1_PREFIX.'products', 'ProductsController@store');
+// Route::put(API_PREFIX.V1_PREFIX.'products/{id}', 'ProductsController@update');
+// Route::delete(API_PREFIX.V1_PREFIX.'products/{id}', 'ProductsController@destroy');
 
-// Without Auth
-Route::get($api_route.$api_version.'products', 'ProductsController@index');
-Route::get($api_route.$api_version.'products/{id}', 'ProductsController@show');
-Route::post($api_route.$api_version.'products', 'ProductsController@store');
-Route::put($api_route.$api_version.'products/{id}', 'ProductsController@update');
-Route::delete($api_route.$api_version.'products/{id}', 'ProductsController@destroy');
+// // Without Auth
+// Route::get(API_PREFIX.V1_PREFIX.'profiles', 'ProfilesController@index');
+// Route::get(API_PREFIX.V1_PREFIX.'profiles/{id}', 'ProfilesController@show');
+// Route::post(API_PREFIX.V1_PREFIX.'profiles', 'ProfilesController@store');
+// Route::put(API_PREFIX.V1_PREFIX.'profiles/{id}', 'ProfilesController@update');
+// Route::delete(API_PREFIX.V1_PREFIX.'profiles/{id}', 'ProfilesController@destroy');
 
-// Without Auth
-Route::get($api_route.$api_version.'profiles', 'ProfilesController@index');
-Route::get($api_route.$api_version.'profiles/{id}', 'ProfilesController@show');
-Route::post($api_route.$api_version.'profiles', 'ProfilesController@store');
-Route::put($api_route.$api_version.'profiles/{id}', 'ProfilesController@update');
-Route::delete($api_route.$api_version.'profiles/{id}', 'ProfilesController@destroy');
-
-// Without Auth
-Route::get($api_route.$api_version.'images', 'ImagesController@index');
-Route::get($api_route.$api_version.'images/{id}', 'ImagesController@show');
-Route::post($api_route.$api_version.'images', 'ImagesController@store');
-Route::put($api_route.$api_version.'images/{id}', 'ImagesController@update');
-Route::delete($api_route.$api_version.'images/{id}', 'ImagesController@destroy');
+// // Without Auth
+// Route::get(API_PREFIX.V1_PREFIX.'images', 'ImagesController@index');
+// Route::get(API_PREFIX.V1_PREFIX.'images/{id}', 'ImagesController@show');
+// Route::post(API_PREFIX.V1_PREFIX.'images', 'ImagesController@store');
+// Route::put(API_PREFIX.V1_PREFIX.'images/{id}', 'ImagesController@update');
+// Route::delete(API_PREFIX.V1_PREFIX.'images/{id}', 'ImagesController@destroy');

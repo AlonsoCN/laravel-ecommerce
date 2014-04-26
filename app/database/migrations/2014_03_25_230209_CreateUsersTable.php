@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration {
 			$table->increments('id');
 			$table->integer('profile_id')->unsigned();
 			$table->foreign('profile_id')->references('id')->on('profiles');
-			$table->string('email');
+			$table->string('email')->unique();
 			$table->string('password');
 			$table->boolean('admin')->default(0);
 			$table->timestamps();

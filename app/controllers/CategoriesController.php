@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-class CategoriesController extends BaseController 
+class CategoriesController extends BaseController
 {
 	public $restful = true;
 
@@ -16,7 +16,7 @@ class CategoriesController extends BaseController
 				'categories' => $json_categories
 			)
 		);
-		return $rtn;
+		return Response::json($rtn);
 	}
 
 	public function show($id)
@@ -30,7 +30,6 @@ class CategoriesController extends BaseController
 				'message' => 'No category found',
 				'data'=> null
 			);
-			return $rtn;
 		}
 		else
 		{
@@ -43,14 +42,14 @@ class CategoriesController extends BaseController
 					'categories' => $json_categories
 				)
 			);
-			return $rtn;
 		}
+		return Response::json($rtn);
 	}
 
 	public function store()
 	{
 		$validator = Validator::make(Input::all(), Category::$rules);
-
+		$rtn = array();
 		try {
 			if ($validator->passes())
 			{
@@ -75,7 +74,7 @@ class CategoriesController extends BaseController
 					'data' => null
 				);
 			}
-			return $rtn;
+			return Response::json($rtn);
 		}
 		catch (Exception $e)
 		{
@@ -84,7 +83,7 @@ class CategoriesController extends BaseController
 					'message' => 'Error: '. $e,
 					'data' => null
 			);
-			return $rtn;
+			return Response::json($rtn);
 		}
 	}
 
@@ -107,12 +106,18 @@ class CategoriesController extends BaseController
 
 			if($validator->passes())
 			{
-				$category->name = Input::get('name');
-				$category->description = Input::get('description');
+				if (Input::has('name'))
+				{
+				    $category->name = Input::get('name');
+				}
+				if (Input::has('description'))
+				{
+					$category->description = Input::get('description');
+				}
 				$category->save();
 
 				$json_category = $category->toArray();
-				
+
 				$rtn = array(
 					'status' => 200,
 					'message' => 'category updated',
@@ -131,7 +136,7 @@ class CategoriesController extends BaseController
 		}
 	}
 
-	public function destroy($id) 
+	public function destroy($id)
 	{
 		$category = Category::find($id);
 
