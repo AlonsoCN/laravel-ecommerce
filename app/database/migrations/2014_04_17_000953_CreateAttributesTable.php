@@ -18,7 +18,7 @@ class CreateAttributesTable extends Migration {
 			$table->foreign('product_id')->references('id')->on('products');
 			$table->string('name');
 			$table->decimal('price', 6, 2);
-			$table->string('description');
+			$table->string('description')->nullable();
 			$table->timestamps();
 		});
 	}
