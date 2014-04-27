@@ -1,19 +1,19 @@
 <?php 
 
-class ColorsController extends BaseController 
+class AttributesController extends BaseController 
 {
 	public $restful = true;
 
 	public function index()
 	{
-		$color = Color::all();
-		$json_color = $color->toArray();
+		$accessories = Accessory::all();
+		$json_accessories = $accessories->toArray();
 
 		$rtn = array(
 			'status' => 200,
 			'message' => null,
 			'data' => array(
-				'color' => $json_color
+				'accessories' => $json_accessories
 			)
 		);
 		return $rtn;
@@ -21,26 +21,26 @@ class ColorsController extends BaseController
 
 	public function show($id)
 	{
-		$color = Color::find($id);
+		$accessory = Accessory::find($id);
 
-		if(is_null($color))
+		if(is_null($accessory))
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No color found',
+				'message' => 'No accessory found',
 				'data'=> null
 			);
 			return $rtn;
 		}
 		else
 		{
-			$json_color = $color->toArray();
+			$json_accessory = $accessory->toArray();
 
 			$rtn = array(
 				'status' => 200,
 				'message' => null,
 				'data' => array(
-					'color' => $json_color
+					'accessory' => $json_accessory
 				)
 			);
 			return $rtn;
@@ -49,23 +49,23 @@ class ColorsController extends BaseController
 
 	public function store()
 	{
-		$validator = Validator::make(Input::all(), Color::$rules);
+		$validator = Validator::make(Input::all(), Accessory::$rules);
 
 		try {
 			if ($validator->passes())
 			{
-				$color = new Color;
-				$color->producto_id = Input::get('producto_id');
-				$color->name = Input::get('name');
-				$color->price = Input::get('price');
-				$color->save();
+				$accessory = new Accessory;
+				$accessory->producto_id = Input::get('producto_id');
+				$accessory->name = Input::get('name');
+				$accessory->price = Input::get('price');
+				$accessory->save();
 
-				$json_color = $color->toArray();
+				$json_ac = $accessory->toArray();
 
 				$rtn = array(
 					'status' => 200,
-					'message' => 'color added',
-					'data' => $json_color
+					'message' => 'accessory added',
+					'data' => $json_ac
 				);
 			}
 			else
@@ -91,34 +91,34 @@ class ColorsController extends BaseController
 
 	public function update($id)
 	{
-		$color = Color::find($id);
+		$accessory = Accessory::find($id);
 
-		if(is_null($color))
+		if(is_null($accessory))
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No color found',
+				'message' => 'No accessory found',
 				'data'=> null
 			);
 			return $rtn;
 		}
 		else
 		{
-			$validator = Validator::make(Input::all(), Color::$rules);
+			$validator = Validator::make(Input::all(), Accessory::$rules);
 
 			if($validator->passes())
 			{
-				$color->product_id = Input::get('product_id');
-				$color->name = Input::get('name');
-				$color->price = Input::get('price');
-				$color->save();
+				$accessory->product_id = Input::get('product_id');
+				$accessory->name = Input::get('name');
+				$accessory->price = Input::get('price');
+				$accessory->save();
 
-				$json_color = $color->toArray();
+				$json_accessory = $accessory->toArray();
 				
 				$rtn = array(
 					'status' => 200,
-					'message' => 'color updated',
-					'data' => $json_color
+					'message' => 'image updated',
+					'data' => $json_accessory
 				);
 			}
 			else
@@ -135,24 +135,24 @@ class ColorsController extends BaseController
 
 	public function destroy($id) 
 	{
-		$color = Color::find($id);
+		$accessory = Accessory::find($id);
 
 		try
 		{
-			if(is_null($color))
+			if(is_null($accessory))
 			{
 				$rtn = array(
 					'status' => 404,
-					'message' => 'No color found',
+					'message' => 'No accessory found',
 					'data'=> null
 				);
 			} else {
-				$json_color = $color->toArray();
-				$color->delete();
+				$json_accessory = $accessory->toArray();
+				$accessory->delete();
 				$rtn = array(
 					'status' => 200,
-					'message' => 'color deleted',
-					'data' => $json_color
+					'message' => 'image deleted',
+					'data' => $json_accessory
 				);
 			}
 			return $rtn;
