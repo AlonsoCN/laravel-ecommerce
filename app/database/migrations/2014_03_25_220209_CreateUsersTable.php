@@ -14,14 +14,8 @@ class CreateUsersTable extends Migration {
 	{
 		Schema::create('users', function($table) {
 			$table->increments('id');
-			$table->string('firstname');
-			$table->string('lastname');
-			$table->string('phone')->nullable();
-			$table->string('celphone');
-			$table->string('dni')->unique();
-			$table->string('address');
-			$table->string('city');
-			$table->string('country');
+			$table->integer('profiles_id')->unsigned()->nullable();
+			$table->foreign('profiles_id')->references('id')->on('profiles');
 			$table->string('email')->unique();
 			$table->string('password');
 			$table->boolean('role')->default(0);
