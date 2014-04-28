@@ -13,7 +13,7 @@ class Product extends Eloquent {
 		'image'=>'required|image|mimes:jpeg,jpg,bmp,png,gif'
 	);
 
-	public function category() {
-		return $this->belongsTo('Category');
-	}
+	public function users() {
+        return $this->belongsTo('User');
+    }
 }

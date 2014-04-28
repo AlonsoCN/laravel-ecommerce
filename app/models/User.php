@@ -31,6 +31,23 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'admin'=>'integer'
 	);
 
+	public function profiles()
+    {
+        return $this->belongsTo('Profile');
+    }
+
+    public function product() {
+        return $this->hasOne('Product');
+    }
+
+    public function categories() {
+        return $this->hasOne('Category');
+    }
+
+    public function Attributes() {
+        return $this->hasOne('Attribute');
+    }
+
 	/**
 	 * Get the unique identifier for the user.
 	 *
