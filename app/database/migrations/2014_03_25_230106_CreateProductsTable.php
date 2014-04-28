@@ -15,8 +15,9 @@ class CreateProductsTable extends Migration {
 		Schema::create('products', function($table) {
 			$table->increments('id');
 			$table->string('title');
-			$table->text('description');
+			$table->integer('stock')->default(0);
 			$table->decimal('price', 6, 2);
+			$table->text('description');
 			$table->boolean('availability')->default(1);
 			$table->integer('users_id')->unsigned()->nullable();
 			$table->foreign('users_id')->references('id')->on('users');
