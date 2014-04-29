@@ -7,9 +7,8 @@ class CategoriesController extends BaseController
 	public function index()
 	{
 		$categories = Category::all();
-		$json_data = $categories->toArray();
 
-		if(is_null($categories))
+		if(count($categories) == 0)
 		{
 			$rtn = array(
 				'status' => 404,
@@ -29,7 +28,6 @@ class CategoriesController extends BaseController
 				)
 			);
 		}
-
 		return Response::json($rtn);
 	}
 
@@ -37,7 +35,7 @@ class CategoriesController extends BaseController
 	{
 		$categories = Category::find($id);
 
-		if(is_null($categories))
+		if(count($categories) == 0)
 		{
 			$rtn = array(
 				'status' => 404,
@@ -125,7 +123,7 @@ class CategoriesController extends BaseController
 				    $category->name = Input::get('name');
 					$category->description = Input::get('description');
 					$category->images_id = Input::get('images_id');
-					$category->users_id = Input::get('users_id')
+					$category->users_id = Input::get('users_id');
 					$category->save();
 
 					$json_data = $category->toArray();

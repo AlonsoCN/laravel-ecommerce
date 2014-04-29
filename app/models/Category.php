@@ -7,7 +7,7 @@ class Category extends Eloquent {
 	public static $rules = array(
 		'name'			=> 'required|min:3',
 		'description'	=> 'null|max:255',
-		'images_id'		=> 'integer'
+		'images_id'		=> 'integer',
 		'users_id'		=> 'required|integer'
 	);
 

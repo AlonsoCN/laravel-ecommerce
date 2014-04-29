@@ -8,11 +8,11 @@ class ProductsController extends BaseController
 	{
 		$products = Product::all();
 		
-		if(is_null($profiles))
+		if(count($products) == 0)
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No profiles found',
+				'message' => 'No products found',
 				'data'=> null
 			);
 		}
@@ -35,7 +35,7 @@ class ProductsController extends BaseController
 	{
 		$product = Product::find($id);
 
-		if(is_null($product))
+		if(count($products) == 0)
 		{
 			$rtn = array(
 				'status' => 404,

@@ -8,7 +8,7 @@ class ImagesController extends BaseController
 	{
 		$images = Image::all();
 
-		if(is_null($images))
+		if(count($images) == 0)
 		{
 			$rtn = array(
 				'status' => 404,
@@ -35,7 +35,7 @@ class ImagesController extends BaseController
 	{
 		$image = Image::find($id);
 
-		if(is_null($image))
+		if(count($images) == 0)
 		{
 			$rtn = array(
 				'status' => 404,

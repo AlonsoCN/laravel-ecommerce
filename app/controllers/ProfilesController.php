@@ -10,7 +10,7 @@ class ProfilesController extends BaseController {
 	{
 		$profiles = Profile::find($id);
 
-		if(is_null($profiles))
+		if(count($profiles) == 0))
 		{
 			$rtn = array(
 				'status' => 404,
@@ -37,7 +37,7 @@ class ProfilesController extends BaseController {
 	{
 		$profile = Profile::find($id);
 
-		if(is_null($profile))
+		if(count($profiles) == 0))
 		{
 			$rtn = array(
 				'status' => 404,

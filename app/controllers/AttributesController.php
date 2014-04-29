@@ -8,7 +8,7 @@ class AttributesController extends BaseController
 	{
 		$attributes = Attribute::all();
 
-		if(is_null($attributes))
+		if(count($attributes) == 0)
 		{
 			$rtn = array(
 				'status' => 404,
@@ -35,7 +35,7 @@ class AttributesController extends BaseController
 	{
 		$attribute = Attribute::find($id);
 
-		if(is_null($attribute))
+		if(count($attributes) == 0)
 		{
 			$rtn = array(
 				'status' => 404,
