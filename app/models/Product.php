@@ -2,15 +2,15 @@
 
 class Product extends Eloquent {
 
-	protected $fillable = array('category_id', 'title', 'description', 'price', 'availability', 'image');
+	protected $fillable = array('title', 'description', 'price', 'availability');
 
 	public static $rules = array(
-		'category_id'=>'required|integer',
-		'title'=>'required|min:2',
-		'description'=>'required|min:10',
-		'price'=>'required|numeric',
-		'availability'=>'integer',
-		'image'=>'required|image|mimes:jpeg,jpg,bmp,png,gif'
+		'title'			=> 'required|min:2',
+		'stock'			=> 'required|min:1|integer'
+		'price'			=> 'required|numeric',
+		'description'	=> 'required|min:10',
+		'availability'	=> 'integer',
+		'users_id'		=> 'integer|null',
 	);
 
 	public function users() {

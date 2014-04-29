@@ -6,66 +6,78 @@ class AttributesController extends BaseController
 
 	public function index()
 	{
-		$accessories = Accessory::all();
-		$json_accessories = $accessories->toArray();
+		$attributes = Attribute::all();
 
-		$rtn = array(
-			'status' => 200,
-			'message' => null,
-			'data' => array(
-				'accessories' => $json_accessories
-			)
-		);
-		return $rtn;
-	}
-
-	public function show($id)
-	{
-		$accessory = Accessory::find($id);
-
-		if(is_null($accessory))
+		if(is_null($attributes))
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No accessory found',
+				'message' => 'No attributes found',
 				'data'=> null
 			);
-			return $rtn;
 		}
 		else
 		{
-			$json_accessory = $accessory->toArray();
+			$json_data = $attributes->toArray();
 
 			$rtn = array(
 				'status' => 200,
 				'message' => null,
 				'data' => array(
-					'accessory' => $json_accessory
+					'attributes' => $json_data
 				)
 			);
-			return $rtn;
 		}
+		return Response::json($rtn);
+	}
+
+	public function show($id)
+	{
+		$attribute = Attribute::find($id);
+
+		if(is_null($attribute))
+		{
+			$rtn = array(
+				'status' => 404,
+				'message' => 'No attribute found',
+				'data'=> null
+			);
+		}
+		else
+		{
+			$json_data = $attribute->toArray();
+
+			$rtn = array(
+				'status' => 200,
+				'message' => null,
+				'data' => array(
+					'attribute' => $json_data
+				)
+			);
+		}
+		return Response::json($rtn);
 	}
 
 	public function store()
 	{
-		$validator = Validator::make(Input::all(), Accessory::$rules);
+		$validator = Validator::make(Input::all(), Attribute::$rules);
 
 		try {
 			if ($validator->passes())
 			{
-				$accessory = new Accessory;
-				$accessory->producto_id = Input::get('producto_id');
-				$accessory->name = Input::get('name');
-				$accessory->price = Input::get('price');
-				$accessory->save();
+				$attribute = new Attribute;
+				$attribute->producto_id = Input::get('producto_id');
+				$attribute->name = Input::get('name');
+				$attribute->price = Input::get('price');
+				$attribute->description = Input::get('description');
+				$attribute->save();
 
-				$json_ac = $accessory->toArray();
+				$json_data = $attribute->toArray();
 
 				$rtn = array(
 					'status' => 200,
-					'message' => 'accessory added',
-					'data' => $json_ac
+					'message' => 'attribute added',
+					'data' => $json_data
 				);
 			}
 			else
@@ -76,7 +88,6 @@ class AttributesController extends BaseController
 					'data' => null
 				);
 			}
-			return $rtn;
 		}
 		catch (Exception $e)
 		{
@@ -85,40 +96,40 @@ class AttributesController extends BaseController
 					'message' => 'Error: '. $e,
 					'data' => null
 			);
-			return $rtn;
 		}
+		return Response::json($rtn);
 	}
 
 	public function update($id)
 	{
-		$accessory = Accessory::find($id);
+		$attribute = Attribute::find($id);
 
-		if(is_null($accessory))
+		if(is_null($attribute))
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No accessory found',
+				'message' => 'No attribute found',
 				'data'=> null
 			);
-			return $rtn;
 		}
 		else
 		{
-			$validator = Validator::make(Input::all(), Accessory::$rules);
+			$validator = Validator::make(Input::all(), Attribute::$rules);
 
 			if($validator->passes())
 			{
-				$accessory->product_id = Input::get('product_id');
-				$accessory->name = Input::get('name');
-				$accessory->price = Input::get('price');
-				$accessory->save();
+				$attribute->producto_id = Input::get('producto_id');
+				$attribute->name = Input::get('name');
+				$attribute->price = Input::get('price');
+				$attribute->description = Input::get('description');
+				$attribute->save();
 
-				$json_accessory = $accessory->toArray();
+				$json_data = $attribute->toArray();
 				
 				$rtn = array(
 					'status' => 200,
-					'message' => 'image updated',
-					'data' => $json_accessory
+					'message' => 'attribute updated',
+					'data' => $json_data
 				);
 			}
 			else
@@ -129,30 +140,32 @@ class AttributesController extends BaseController
 					'data' => null
 				);
 			}
-			return $rtn;
 		}
+		return Response::json($rtn);
 	}
 
 	public function destroy($id) 
 	{
-		$accessory = Accessory::find($id);
+		$attribute = Attribute::find($id);
 
 		try
 		{
-			if(is_null($accessory))
+			if(is_null($attribute))
 			{
 				$rtn = array(
 					'status' => 404,
-					'message' => 'No accessory found',
+					'message' => 'No attribute found',
 					'data'=> null
 				);
-			} else {
-				$json_accessory = $accessory->toArray();
-				$accessory->delete();
+			} 
+			else
+			{
+				$json_data = $attribute->toArray();
+				$attribute->delete();
 				$rtn = array(
 					'status' => 200,
-					'message' => 'image deleted',
-					'data' => $json_accessory
+					'message' => 'attribute deleted',
+					'data' => $json_data
 				);
 			}
 			return $rtn;

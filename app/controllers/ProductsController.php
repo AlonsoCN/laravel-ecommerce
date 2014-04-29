@@ -7,16 +7,28 @@ class ProductsController extends BaseController
 	public function index()
 	{
 		$products = Product::all();
-		$json_products = $products->toArray();
+		
+		if(is_null($profiles))
+		{
+			$rtn = array(
+				'status' => 404,
+				'message' => 'No profiles found',
+				'data'=> null
+			);
+		}
+		else
+		{
+			$json_products = $products->toArray();
 
-		$rtn = array(
-			'status' => 200,
-			'message' => null,
-			'data' => array(
-				'products' => $json_products
-			)
-		);
-		return $rtn;
+			$rtn = array(
+				'status' => 200,
+				'message' => null,
+				'data' => array(
+					'products' => $json_products
+				)
+			);
+		}
+		return Response::json($rtn);
 	}
 
 	public function show($id)
@@ -30,21 +42,20 @@ class ProductsController extends BaseController
 				'message' => 'No product found',
 				'data'=> null
 			);
-			return $rtn;
 		}
 		else
 		{
-			$json_product = $product->toArray();
+			$json_data = $product->toArray();
 
 			$rtn = array(
 				'status' => 200,
 				'message' => null,
 				'data' => array(
-					'product' => $json_product
+					'product' => $json_data
 				)
 			);
-			return $rtn;
 		}
+		return Response::json($rtn);
 	}
 
 	public function store()
@@ -60,15 +71,15 @@ class ProductsController extends BaseController
 				$product->description = Input::get('description');
 				$product->price = Input::get('price');
 				$product->availability = Input::get('availability');
-				$product->image = Input::get('image');
+				$product->users_id = Input::get('users_id');
 				$product->save();
 
-				$json_product = $product->toArray();
+				$json_data = $product->toArray();
 
 				$rtn = array(
 					'status' => 200,
 					'message' => 'product added',
-					'data' => $json_product
+					'data' => $json_data
 				);
 			}
 			else
@@ -79,7 +90,6 @@ class ProductsController extends BaseController
 					'data' => null
 				);
 			}
-			return $rtn;
 		}
 		catch (Exception $e)
 		{
@@ -88,55 +98,65 @@ class ProductsController extends BaseController
 					'message' => 'Error: '. $e,
 					'data' => null
 			);
-			return $rtn;
 		}
+		return Response::json($rtn);
 	}
 
 	public function update($id)
 	{
 		$product = Product::find($id);
 
-		if(is_null($product))
+		try
 		{
-			$rtn = array(
-				'status' => 404,
-				'message' => 'No product found',
-				'data'=> null
-			);
-			return $rtn;
-		}
-		else
-		{
-			$validator = Validator::make(Input::all(), Product::$rules);
-
-			if($validator->passes())
+			if(is_null($product))
 			{
-				$product->category_id = Input::get('category_id');
-				$product->title = Input::get('title');
-				$product->description = Input::get('description');
-				$product->price = Input::get('price');
-				$product->availability = Input::get('availability');
-				$product->image = Input::get('image');
-				$product->save();
-
-				$json_product = $product->toArray();
-				
 				$rtn = array(
-					'status' => 200,
-					'message' => 'product updated',
-					'data' => $json_product
+					'status' => 404,
+					'message' => 'No product found',
+					'data'=> null
 				);
 			}
 			else
 			{
-				$rtn = array(
-					'status' => 804,
-					'message' => 'missing field(s)',
-					'data' => null
-				);
+				$validator = Validator::make(Input::all(), Product::$rules);
+
+				if($validator->passes())
+				{
+					$product->category_id = Input::get('category_id');
+					$product->title = Input::get('title');
+					$product->description = Input::get('description');
+					$product->price = Input::get('price');
+					$product->availability = Input::get('availability');
+					$product->users_id = Input::get('users_id');
+					$product->save();
+
+					$json_data = $product->toArray();
+					
+					$rtn = array(
+						'status' => 200,
+						'message' => 'product updated',
+						'data' => $json_data
+					);
+				}
+				else
+				{
+					$rtn = array(
+						'status' => 804,
+						'message' => 'missing field(s)',
+						'data' => null
+					);
+				}
 			}
-			return $rtn;
 		}
+		catch (Exception $e)
+		{
+			$rtn = array(
+					'status' => 500,
+					'message' => 'Error: '. $e,
+					'data' => null
+			);
+		}
+		return Response::json($rtn);
 	}
 
 	public function destroy($id) 
@@ -153,15 +173,14 @@ class ProductsController extends BaseController
 					'data'=> null
 				);
 			} else {
-				$json_product = $product->toArray();
+				$json_data = $product->toArray();
 				$product->delete();
 				$rtn = array(
 					'status' => 200,
 					'message' => 'product deleted',
-					'data' => $json_product
+					'data' => $json_data
 				);
 			}
-			return $rtn;
 		}
 		catch (Exception $e)
 		{
@@ -170,7 +189,7 @@ class ProductsController extends BaseController
 					'message' => 'Error: '. $e,
 					'data' => null
 			);
-			return $rtn;
 		}
+		return Response::json($rtn);
 	}
 }

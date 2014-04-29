@@ -1,59 +1,59 @@
 <?php
 
-class CategoriesController extends BaseController
-{
-	public $restful = true;
+class ProfilesController extends BaseController {
+
+	public function __construct() {
+		$this->beforeFilter('csrf', array('on'=>'post'));
+	}
 
 	public function index()
 	{
-		$categories = Category::all();
-		$json_data = $categories->toArray();
+		$profiles = Profile::find($id);
 
-		if(is_null($categories))
+		if(is_null($profiles))
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No categories found',
+				'message' => 'No profiles found',
 				'data'=> null
 			);
 		}
 		else
 		{
-			$json_data = $categories->toArray();
+			$json_data = $profiles->toArray();
 
 			$rtn = array(
 				'status' => 200,
 				'message' => null,
 				'data' => array(
-					'categories' => $json_data
+					'profiles' => $json_data
 				)
 			);
 		}
-
 		return Response::json($rtn);
 	}
 
 	public function show($id)
 	{
-		$categories = Category::find($id);
+		$profile = Profile::find($id);
 
-		if(is_null($categories))
+		if(is_null($profile))
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No category found',
+				'message' => 'No profile found',
 				'data'=> null
 			);
 		}
 		else
 		{
-			$json_data = $categories->toArray();
+			$json_data = $profile->toArray();
 
 			$rtn = array(
 				'status' => 200,
 				'message' => null,
 				'data' => array(
-					'categories' => $json_data
+					'profile' => $json_data
 				)
 			);
 		}
@@ -62,22 +62,28 @@ class CategoriesController extends BaseController
 
 	public function store()
 	{
-		$validator = Validator::make(Input::all(), Category::$rules);
+		$validator = Validator::make(Input::all(), Profile::$rules);
 		$rtn = array();
 
 		try {
 			if ($validator->passes())
 			{
-				$category = new Category;
-				$category->name = Input::get('name');
-				$category->description = Input::get('description');
-				$category->save();
+				$profile = new Profile;
+				$profile->firstname = Input::get('firstname');
+				$profile->lastname = Input::get('lastname');
+				$profile->phone = Input::get('phone');
+				$profile->celphone = Input::get('celphone');
+				$profile->dni = Input::get('dni');
+				$profile->address = Input::get('address');
+				$profile->city = Input::get('city');
+				$profile->country = Input::get('country');
+				$profile->save();
 
-				$json_data = $category->toArray();
+				$json_data = $profile->toArray();
 
 				$rtn = array(
 					'status' => 200,
-					'message' => 'category added',
+					'message' => 'profile added',
 					'data' => $json_data
 				);
 			}
@@ -104,35 +110,40 @@ class CategoriesController extends BaseController
 
 	public function update($id)
 	{
-		$category = Category::find($id);
+		$profile = Profile::find($id);
 
 		try
 		{
-			if(is_null($category))
+			if(is_null($profile))
 			{
 				$rtn = array(
 					'status' => 404,
-					'message' => 'No category found',
+					'message' => 'No profile found',
 					'data'=> null
 				);
 			}
 			else
 			{
-				$validator = Validator::make(Input::all(), Category::$rules);
+				$validator = Validator::make(Input::all(), Profile::$rules);
 
 				if($validator->passes())
 				{
-				    $category->name = Input::get('name');
-					$category->description = Input::get('description');
-					$category->images_id = Input::get('images_id');
-					$category->users_id = Input::get('users_id')
-					$category->save();
+				    $profile->name = Input::get('name');
+					$profile->firstname = Input::get('firstname');
+					$profile->lastname = Input::get('lastname');
+					$profile->phone = Input::get('phone');
+					$profile->celphone = Input::get('celphone');
+					$profile->dni = Input::get('dni');
+					$profile->address = Input::get('address');
+					$profile->city = Input::get('city');
+					$profile->country = Input::get('country');
+					$profile->save();
 
-					$json_data = $category->toArray();
+					$json_data = $profile->toArray();
 
 					$rtn = array(
 						'status' => 200,
-						'message' => 'category updated',
+						'message' => 'profile updated',
 						'data' => $json_data
 					);
 				}
@@ -159,23 +170,23 @@ class CategoriesController extends BaseController
 
 	public function destroy($id)
 	{
-		$category = Category::find($id);
+		$profile = Profile::find($id);
 
 		try
 		{
-			if(is_null($category))
+			if(is_null($profile))
 			{
 				$rtn = array(
 					'status' => 404,
-					'message' => 'No category found',
+					'message' => 'No profile found',
 					'data'=> null
 				);
 			} else {
-				$json_data = $category->toArray();
-				$category->delete();
+				$json_data = $profile->toArray();
+				$profile->delete();
 				$rtn = array(
 					'status' => 200,
-					'message' => 'category deleted',
+					'message' => 'profile deleted',
 					'data' => $json_data
 				);
 			}

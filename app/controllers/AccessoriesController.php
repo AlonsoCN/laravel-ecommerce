@@ -1,70 +1,70 @@
 <?php 
 
-class AccessoriesController extends BaseController 
+class ProfilesController extends BaseController 
 {
 	public $restful = true;
 
 	public function index()
 	{
-		$accessories = Accessory::all();
-		$json_accessories = $accessories->toArray();
+		$profiles = Profile::all();
+		$json_profiles = $profiles->toArray();
 
 		$rtn = array(
 			'status' => 200,
 			'message' => null,
 			'data' => array(
-				'accessories' => $json_accessories
+				'profiles' => $json_profiles
 			)
 		);
-		return $rtn;
+		return Response::json($rtn);
 	}
 
 	public function show($id)
 	{
-		$accessory = Accessory::find($id);
+		$profiles = Profile::find($id);
 
-		if(is_null($accessory))
+		if(is_null($profiles))
 		{
 			$rtn = array(
 				'status' => 404,
-				'message' => 'No accessory found',
+				'message' => 'No profile found',
 				'data'=> null
 			);
-			return $rtn;
 		}
 		else
 		{
-			$json_accessory = $accessory->toArray();
+			$json_profiles = $profiles->toArray();
 
 			$rtn = array(
 				'status' => 200,
 				'message' => null,
 				'data' => array(
-					'accessory' => $json_accessory
+					'profiles' => $json_profiles
 				)
 			);
-			return $rtn;
 		}
+		return Response::json($rtn);
 	}
 
 	public function store()
 	{
-		$validator = Validator::make(Input::all(), Accessory::$rules);
+		$validator = Validator::make(Input::all(), Profile::$rules);
 
-		try {
+		try 
+		{
 			if ($validator->passes())
 			{
-				$accessory = new Accessory;
-				$accessory->producto_id = Input::get('producto_id');
-				$accessory->name = Input::get('name');
-				$accessory->price = Input::get('price');
-				$accessory->save();
+				$profiles = new Profile;
+				$profiles->producto_id = Input::get('producto_id');
+				$profiles->name = Input::get('name');
+				$profiles->price = Input::get('price');
+				$profiles->save();
 
-				$json_ac = $accessory->toArray();
+				$json_ac = $profiles->toArray();
 
 				$rtn = array(
 					'status' => 200,
-					'message' => 'accessory added',
+					'message' => 'profile added',
 					'data' => $json_ac
 				);
 			}
@@ -76,7 +76,6 @@ class AccessoriesController extends BaseController
 					'data' => null
 				);
 			}
-			return $rtn;
 		}
 		catch (Exception $e)
 		{
@@ -85,8 +84,8 @@ class AccessoriesController extends BaseController
 					'message' => 'Error: '. $e,
 					'data' => null
 			);
-			return $rtn;
 		}
+		return Response::json($rtn);
 	}
 
 	public function update($id)

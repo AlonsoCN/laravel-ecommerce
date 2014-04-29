@@ -17,55 +17,10 @@ class UsersController extends BaseController {
 				'login_form' => $view,
 			)		
 		);
-		return $rtn;
+		return Response::json($rtn);
 	}
 
-	/*
-	public function get($id = null)
-	{
-		if(is_null($id)) 
-		{
-			return User::all();
-		} 
-		else
-		{
-			$user = User::find($id);
-
-			if(is_null($user))
-			{
-				return Response::json('El usuario no existe.', 404);
-			}
-			else
-			{
-				return $user;
-			}
-		}
-	}
-
-	public function create() {
-		$validator = Validator::make(Input::all(), User::$rules);
-
-		if ($validator->passes()) {
-			$user = new User;
-			$user->firstname = Input::get('firstname');
-			$user->lastname = Input::get('lastname');
-			$user->email = Input::get('email');
-			$user->password = Hash::make(Input::get('password'));
-			$user->telephone = Input::get('telephone');
-			$user->save();
-
-			return \Response::json(
-			 		array('error' => false, 'data' => array('msg'=> 'Gracias por crear una cuenta.')),
-			 		200);
-		}
-
-		return Response::json(
-			array('error'=>true, 'msg'=>'No se creo el usuario.', 'validator'=>$validator), 
-			404);
-	}
-	*/
-
-	public function postSignin() 
+	public function login() 
 	{
 		if (Auth::attempt(array('email'=>Input::get('email'), 'password'=>Input::get('password')))) 
 		{
@@ -78,7 +33,7 @@ class UsersController extends BaseController {
 					'user' => $user
 				)		
 			);
-			return $rtn;
+			return Response::json($rtn);
 		}
 
 		$rtn = array(
@@ -86,10 +41,10 @@ class UsersController extends BaseController {
 			'message' => 'invalid email or password',
 			'data'=> null
 		);
-		return $rtn;
+		return Response::json($rtn);
 	}
 
-	public function getSignout() 
+	public function logout() 
 	{
 		Auth::logout();
 		$rtn = array(
@@ -97,6 +52,6 @@ class UsersController extends BaseController {
 			'message' => 'logout',
 			'data'=> null
 		);
-		return $rtn;
+		return Response::json($rtn);
 	}
 }

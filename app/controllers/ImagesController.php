@@ -6,17 +6,29 @@ class ImagesController extends BaseController
 
 	public function index()
 	{
-		$image = Image::all();
-		$json_images = $image->toArray();
+		$images = Image::all();
 
-		$rtn = array(
-			'status' => 200,
-			'message' => null,
-			'data' => array(
-				'image' => $json_images
-			)
-		);
-		return $rtn;
+		if(is_null($images))
+		{
+			$rtn = array(
+				'status' => 404,
+				'message' => 'No images found',
+				'data'=> null
+			);
+		}
+		else
+		{
+			$json_data = $images->toArray();
+
+			$rtn = array(
+				'status' => 200,
+				'message' => null,
+				'data' => array(
+					'images' => $json_data
+				)
+			);
+		}
+		return Response::json($rtn);
 	}
 
 	public function show($id)
@@ -30,21 +42,20 @@ class ImagesController extends BaseController
 				'message' => 'No image found',
 				'data'=> null
 			);
-			return $rtn;
 		}
 		else
 		{
-			$json_images = $image->toArray();
+			$json_data = $image->toArray();
 
 			$rtn = array(
 				'status' => 200,
 				'message' => null,
 				'data' => array(
-					'image' => $json_images
+					'image' => $json_data
 				)
 			);
-			return $rtn;
 		}
+		return Response::json($rtn);
 	}
 
 	public function store()
@@ -55,16 +66,16 @@ class ImagesController extends BaseController
 			if ($validator->passes())
 			{
 				$image = new Image;
-				$image->producto_id = Input::get('producto_id');
-				$image->name_life = Input::get('name_life');
+				$image->file_name = Input::get('file_name');
+				$image->description = Input::get('description');
 				$image->save();
 
-				$json_image = $image->toArray();
+				$json_data = $image->toArray();
 
 				$rtn = array(
 					'status' => 200,
 					'message' => 'image added',
-					'data' => $json_image
+					'data' => $json_data
 				);
 			}
 			else
@@ -75,7 +86,6 @@ class ImagesController extends BaseController
 					'data' => null
 				);
 			}
-			return $rtn;
 		}
 		catch (Exception $e)
 		{
@@ -84,51 +94,61 @@ class ImagesController extends BaseController
 					'message' => 'Error: '. $e,
 					'data' => null
 			);
-			return $rtn;
 		}
+		return Response::json($rtn);
 	}
 
 	public function update($id)
 	{
 		$image = Image::find($id);
 
-		if(is_null($image))
+		try
 		{
-			$rtn = array(
-				'status' => 404,
-				'message' => 'No image found',
-				'data'=> null
-			);
-			return $rtn;
-		}
-		else
-		{
-			$validator = Validator::make(Input::all(), Image::$rules);
-
-			if($validator->passes())
+			if(is_null($image))
 			{
-				$image->product_id = Input::get('product_id');
-				$image->name_label = Input::get('name_label');
-				$image->save();
-
-				$json_image = $image->toArray();
-				
 				$rtn = array(
-					'status' => 200,
-					'message' => 'image updated',
-					'data' => $json_image
+					'status' => 404,
+					'message' => 'No image found',
+					'data'=> null
 				);
 			}
 			else
 			{
-				$rtn = array(
-					'status' => 804,
-					'message' => 'missing field(s)',
-					'data' => null
-				);
+				$validator = Validator::make(Input::all(), Image::$rules);
+
+				if($validator->passes())
+				{
+					$image->file_name = Input::get('file_name');
+					$image->description = Input::get('description');
+					$image->save();
+
+					$json_data = $image->toArray();
+					
+					$rtn = array(
+						'status' => 200,
+						'message' => 'image updated',
+						'data' => $json_data
+					);
+				}
+				else
+				{
+					$rtn = array(
+						'status' => 804,
+						'message' => 'missing field(s)',
+						'data' => null
+					);
+				}
 			}
-			return $rtn;
 		}
+		catch (Exception $e)
+		{
+			$rtn = array(
+					'status' => 500,
+					'message' => 'Error: '. $e,
+					'data' => null
+			);
+		}
+		return Response::json($rtn);
 	}
 
 	public function destroy($id) 
@@ -145,12 +165,12 @@ class ImagesController extends BaseController
 					'data'=> null
 				);
 			} else {
-				$json_image = $imagen->toArray();
+				$json_data = $imagen->toArray();
 				$imagen->delete();
 				$rtn = array(
 					'status' => 200,
 					'message' => 'image deleted',
-					'data' => $json_image
+					'data' => $json_data
 				);
 			}
 			return $rtn;
