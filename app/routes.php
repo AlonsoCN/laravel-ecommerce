@@ -22,7 +22,7 @@ Route::group(array(
     Route::resource('products', 'ProductsController', array('only' => array('store', 'update', 'delete')));
     Route::resource('attributes', 'AttributesController', array('only' => array('store', 'update', 'delete')));
     Route::resource('images', 'ImagesController', array('only' => array('store', 'update', 'delete')));
-|    Route::resource('profiles', 'ProfilesController', array('only' => array('store', 'update', 'delete')));
+    Route::resource('profiles', 'ProfilesController', array('only' => array('store', 'update', 'delete')));
   }
 );
 
