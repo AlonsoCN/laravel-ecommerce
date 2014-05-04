@@ -10,7 +10,7 @@ class Image extends Eloquent {
 	)
 
 	public function categories() {
-        return $this->belongsTo('Categorie');
+        return $this->belongsTo('Category');
     }
 
     public function products_attributes() {
