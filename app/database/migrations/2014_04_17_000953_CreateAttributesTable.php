@@ -14,8 +14,6 @@ class CreateAttributesTable extends Migration {
 	{
 		Schema::create('attributes', function($table) {
 			$table->increments('id');
-			$table->integer('product_id')->unsigned();
-			$table->foreign('product_id')->references('id')->on('products');
 			$table->string('name');
 			$table->decimal('price', 6, 2);
 			$table->string('description')->nullable();
