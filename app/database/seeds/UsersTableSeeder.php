@@ -6,7 +6,7 @@ class UsersTableSeeder extends Seeder {
       DB::table('users')->delete();
 
 		$user = new User;
-		$user->profile_id = 1;
+		$user->profiles_id = 1;
 		$user->email = 'admin@admin.com';
 		$user->password = Hash::make('123456');
 		$user->role = 1;

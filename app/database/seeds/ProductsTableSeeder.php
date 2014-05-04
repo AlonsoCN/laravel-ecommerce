@@ -10,9 +10,9 @@ class ProductsTableSeeder extends Seeder {
 		$product->title = 'Cartera';
 		$product->stock = 50;
 		$product->price = 29.99;
-		$product->descripcion = 'Cartera simple';
+		$product->description = 'Cartera simple';
 		$product->availability = '1';
-		$product->user_id = 1;
+		$product->users_id = 1;
 		$product->save();
 
 		$product = new Product;
@@ -20,9 +20,9 @@ class ProductsTableSeeder extends Seeder {
 		$product->title = 'Bolso';
 		$product->stock = 20;
 		$product->price = 49.99;
-		$product->descripcion = 'Bolso simple';
+		$product->description = 'Bolso simple';
 		$product->availability = '1';
-		$product->user_id = 1;
+		$product->users_id = 1;
 		$product->save();
 	}
 }

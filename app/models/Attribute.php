@@ -9,13 +9,13 @@ class Attribute extends Eloquent {
 		'name'			=> 'required|between: 5, 255|alpha_num',
 		'price'			=> 'required|numeric',
 		'description'	=> 'null|between: 5, 255|alpha_num'
-	)
+	);
 
-	public function products_attributes() {
+	public function product_attribute() {
 		return $this->hasMany('Product_Attribute');
 	}
 
-	public function users() {
+	public function user() {
         return $this->belongsTo('User');
     }
 }

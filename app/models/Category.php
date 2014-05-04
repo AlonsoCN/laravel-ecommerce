@@ -11,11 +11,11 @@ class Category extends Eloquent {
 		'users_id'		=> 'required|integer'
 	);
 
-	public function products_categories() {
+	public function product_category() {
 		return $this->hasMany('Product_Category');
 	}
 
-	public function users() {
+	public function user() {
         return $this->belongsTo('User');
     }
 }

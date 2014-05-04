@@ -7,13 +7,13 @@ class Image extends Eloquent {
 	public static $rules = array(
 		'file_name'		=> 'required|between: 5, 255|alpha_num',
 		'description'	=> 'required|between: 5, 255|alpha_num'
-	)
+	);
 
-	public function categories() {
+	public function category() {
         return $this->belongsTo('Category');
     }
 
-    public function products_attributes() {
+    public function product_attribute() {
         return $this->belongsTo('Product_Attribute');
     }
 }

@@ -7,15 +7,15 @@ class Product_Attribute extends Eloquent {
 	public static $rules = array(
 		'product_id'	=> 'required|integer',
 		'attribute_id'	=> 'required|integer',
-		'images_id'	=> 'null|integer',
-	)
+		'images_id'	=> 'null|integer'
+	);
 
-	public function products()
+	public function product()
     {
         return $this->belongsTo('Product');
     }
 
-    public function attributes()
+    public function attribute()
     {
         return $this->belongsTo('Attribute');
     }

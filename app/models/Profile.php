@@ -18,7 +18,7 @@ class Profile extends Eloquent {
 		'country'	=> 'required|between:2, 120|alpha'		
 	);
 
-    public function users()
+    public function user()
     {
         return $this->hasOne('User');
     }

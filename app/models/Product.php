@@ -6,14 +6,14 @@ class Product extends Eloquent {
 
 	public static $rules = array(
 		'title'			=> 'required|min:2',
-		'stock'			=> 'required|min:1|integer'
+		'stock'			=> 'required|min:1|integer',
 		'price'			=> 'required|numeric',
 		'description'	=> 'required|min:10',
 		'availability'	=> 'integer',
-		'users_id'		=> 'integer|null',
+		'users_id'		=> 'integer|null'
 	);
 
-	public function users() {
+	public function user() {
         return $this->belongsTo('User');
     }
 }

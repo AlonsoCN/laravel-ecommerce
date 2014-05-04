@@ -1,6 +1,6 @@
 <?php
 
-class ProfileTableSeeder extends Seeder {
+class ProfilesTableSeeder extends Seeder {
 
 	public function run() {
 		DB::table('profiles')->delete();

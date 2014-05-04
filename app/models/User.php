@@ -23,7 +23,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'role'					=> 'integer'
 	);
 
-	public function profiles()
+	public function profile()
     {
         return $this->belongsTo('Profile');
     }
@@ -32,11 +32,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->hasOne('Product');
     }
 
-    public function categories() {
+    public function category() {
         return $this->hasOne('Category');
     }
 
-    public function Attributes() {
+    public function attribute() {
         return $this->hasOne('Attribute');
     }
 
